@@ -49,3 +49,32 @@ class Controller:
     """Implementare la parte di ricerca del cammino minimo"""
     # TODO
 
+    def handle_cammino_minimo(self, e):
+
+        try:
+            soglia = float(self._view.txt_soglia.value)
+        except:
+            self._view.show_alert("Inserisci un numero valido per la soglia.")
+            return
+
+
+        self._view.lista_visualizzazione_3.controls.clear()
+        (lista_cammini) =  self._model.search_cammino_minimo(soglia)
+        print("Cammini trovati: ", len(lista_cammini))
+
+        for cammino in lista_cammini:
+            testo = ""  # riga per il cammino corrente
+            for i in range(0, len(cammino)-1):
+                rifugio_1 = self._model._dizionario_rifugi[cammino[i]]
+                rifugio_2 = self._model._dizionario_rifugi[cammino[i+1]]
+                testo += (f"[{rifugio_1.id}] {rifugio_1.nome} ({rifugio_1.localita}) "
+                          f"--> [{rifugio_2.id}] {rifugio_2.nome} ({rifugio_2.localita})"
+                          f"[Peso {self._model.G[rifugio_1.id][rifugio_2.id]['weight']}]")
+
+                self._view.lista_visualizzazione_3.controls.append(ft.Text(testo))
+
+        self._view.page.update()
+
+
+
+

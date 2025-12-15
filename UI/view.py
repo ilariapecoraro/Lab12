@@ -47,6 +47,16 @@ class View:
         self.lista_visualizzazione_2 = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
 
         # Riga 3: Implementare la parte di ricerca del cammino minimo
+
+        self.pulsante_cammino_minimo = ft.ElevatedButton(
+            text="Cammino Minimo",
+            on_click=self.controller.handle_cammino_minimo if self.controller else None,
+            width=200
+        )
+
+        row3 = ft.Row([self.pulsante_cammino_minimo], alignment=ft.MainAxisAlignment.CENTER)
+        self.lista_visualizzazione_3 = ft.ListView(height = 300, expand=1, spacing=10, padding=20, auto_scroll=False)
+
         # TODO
 
         # --- Toggle Tema ---
@@ -69,6 +79,8 @@ class View:
             ft.Divider(),
 
             # Implementare la parte di ricerca del cammino minimo
+            row3,
+            self.lista_visualizzazione_3,
             # TODO
         )
 
