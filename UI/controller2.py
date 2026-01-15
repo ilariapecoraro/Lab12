@@ -46,34 +46,18 @@ class Controller:
         self._view.lista_visualizzazione_2.controls.append(ft.Text(f"Archi < {soglia}: {minori}, Archi > {soglia}: {maggiori}"))
         self._view.page.update()
 
-    """Implementare la parte di ricerca del cammino minimo"""
-    # TODO
-
-    def handle_cammino_minimo(self, e):
-
+    def handle_cammini(self, e):
+        """Callback per il pulsante 'Cammino Minimo'."""
         try:
             soglia = float(self._view.txt_soglia.value)
         except:
             self._view.show_alert("Inserisci un numero valido per la soglia.")
             return
 
+        cammino = self._model.shortest_path_dijkstra(soglia)
         self._view.lista_visualizzazione_3.controls.clear()
-        (lista_cammini) =  self._model.search_cammino_minimo(soglia)
-        print("Cammini trovati: ", len(lista_cammini))
-
-        for cammino in lista_cammini:
-            testo = ""  # riga per il cammino corrente
-            for i in range(0, len(cammino)-1):
-                rifugio_1 = self._model._dizionario_rifugi[cammino[i]]
-                rifugio_2 = self._model._dizionario_rifugi[cammino[i+1]]
-                testo += (f"[{rifugio_1.id}] {rifugio_1.nome} ({rifugio_1.localita}) "
-                          f"--> [{rifugio_2.id}] {rifugio_2.nome} ({rifugio_2.localita})"
-                          f"[Peso {self._model.G[rifugio_1.id][rifugio_2.id]['weight']}]")
-
-                self._view.lista_visualizzazione_3.controls.append(ft.Text(testo))
-
+        self._view.lista_visualizzazione_3.controls.append(ft.Text("Cammino minimo:"))
+        for edge in cammino:
+            print(edge[0])
+            self._view.lista_visualizzazione_3.controls.append(ft.Text(f"{edge[0]} --> {edge[1]} [peso: {edge[2]['weight']}]"))
         self._view.page.update()
-
-
-
-
